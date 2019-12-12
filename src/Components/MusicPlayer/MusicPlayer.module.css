@@ -1,0 +1,149 @@
+.MusicPlayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 55px 0;
+    width: 70%;
+    box-sizing: border-box;
+    border-right: 1px solid black;
+}
+
+.MusicPlayer h2 {
+    margin: 0;
+}
+
+.MusicPlayer img {
+    width: 300px;
+    border-radius: 8px;
+}
+
+.MusicPlayer h3 {
+    margin: 0;
+    width: 55px;
+}
+
+.AudioControls {
+    display: flex;
+    align-items: center;
+}
+
+i {
+    cursor: pointer;
+    font-size: 30px;
+    opacity: 0.7;
+    transition: opacity .3s;
+    font-size: 26px;
+}
+
+.AudioControls i:hover {
+    color: #2a5298;
+    transition: color .2s;
+}
+
+i:hover {
+    opacity: 1;
+}
+
+i+i{
+    margin-left: 20px;
+}
+
+.PlayButton, .PauseButton {
+    font-size: 50px;
+}
+
+.BackwardsIcon, .ForwardIcon {
+    font-size: 36px;
+}
+
+.progressBox {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-between;
+}
+
+progress {
+    width: 300px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: unset;
+}
+
+progress[value] {
+    background-color: white;
+    height: 4px;
+    border-radius: 8px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: white;
+    border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+    background-color: black;
+    border-radius: 8px;
+    transition: .2s;
+}
+
+progress[value]::-moz-progress-bar {
+    background-color: black;
+    border-radius: 8px;
+}
+
+.repeatOn, .shuffleOn {
+    opacity: 1;
+    color: #2a5298;
+}
+
+.VolumeControl {
+    display: flex;
+    align-items: center;
+}
+
+.VolumeControl i {
+    font-size: 22px;
+    margin-right: 10px;
+    width: 25px;
+}
+
+.Slider {
+    -webkit-appearance: none;
+    height: 4px;
+    background: white;
+    outline: unset;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.Slider::-webkit-Slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: black;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .2s;
+}
+
+.Slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: black;
+    cursor: pointer;
+    border-radius: 10px;
+    transform: scale(1.4);
+    border: unset;
+    transition: .2s;
+}
+
+.Slider::-webkit-Slider-thumb:hover{
+    background-color: #2a5298;
+}
+
+.Slider::-moz-range-thumb:hover{
+    background-color: #2a5298;
+}
