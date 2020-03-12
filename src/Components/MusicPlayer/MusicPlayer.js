@@ -1,5 +1,4 @@
 import React from 'react';
-
 import classes from './MusicPlayer.module.css';
 
 class MusicPlayer extends React.Component {
@@ -95,7 +94,7 @@ class MusicPlayer extends React.Component {
 
                 <div className={classes.VolumeControl}>
 
-                {(this.state.songMuted || this.state.slideValue == 0) ? muted : unMuted}
+                {(this.state.songMuted || this.state.slideValue === 0) ? muted : unMuted}
 
                 <input ref="inputRange" className={classes.Slider} onChange={(e)=>this.onVolumeControl(e)} type="range" min="0" max="100" value={this.state.slideValue} />
                 </div>

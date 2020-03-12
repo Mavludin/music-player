@@ -1,6 +1,8 @@
 import React from 'react';
-
 import classes from './SongList.module.css';
+
+import { useDispatch } from 'react-redux';
+import { loadData } from '../../Store/Actions';
 
 const SongList = (props) => {
 
@@ -17,8 +19,13 @@ const SongList = (props) => {
         )
     });
 
+    const dispatch = useDispatch();
+    const onClick = () => dispatch(loadData());
+
     return (
         <div className={classes.SongList}>
+                <button onClick={onClick}>Click me</button>
+
             {songListRender}
         </div>
     ) 
