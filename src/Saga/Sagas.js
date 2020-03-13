@@ -2,9 +2,9 @@ import { putData, LOAD_DATA } from "../Store/Actions";
 import { takeEvery, put, call } from 'redux-saga/effects';
 
 
-const fetchData = () => {
-    return fetch('https://5dd1894f15bbc2001448d28e.mockapi.io/playlist')
-        .then(response => response.json());
+const fetchData = async () => {
+    const response = await fetch('https://5dd1894f15bbc2001448d28e.mockapi.io/playlist');
+    return await response.json();
 }
 
 function* workerLoadData() {

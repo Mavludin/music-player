@@ -8,6 +8,9 @@ import MusicPlayer from './Components/MusicPlayer/MusicPlayer';
 
 import './Main.module.css';
 
+import { connect } from 'react-redux';
+import { loadData } from './Store/Actions';
+
 class App extends React.Component {
 
   state = {
@@ -18,7 +21,8 @@ class App extends React.Component {
     repeatAudio: false,
     shuffleFlag: false,
     timerSeconds: '00',
-    timerMinutes: '00'
+    timerMinutes: '00',
+    dataLoaded: false
   }
 
   onHandleProgressBar = (e) => {
@@ -95,6 +99,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getDataFromBackEnd();
     axios.get('https://5dd1894f15bbc2001448d28e.mockapi.io/playlist')
     .then(response => {
       this.setState({songList: response.data, currentSong: response.data[0]});
@@ -104,27 +109,45 @@ class App extends React.Component {
   render() {
 
     return (
+
       <div className="App">
         <main>
 
-          <MusicPlayer
-            currentSong={this.state.currentSong}
-            onHandleProgressBar={this.onHandleProgressBar}
-            timerMinutes={this.state.timerMinutes}
-            timerSeconds={this.state.timerSeconds}
-            letsShuffle={this.letsShuffle}
-            songPlayed={this.state.songPlayed}
-            onPlayClick={this.onPlayClick}
-            onPauseClick={this.onPauseClick}
-            repeatAudio={this.state.repeatAudio}
-            shuffleFlag={this.state.shuffleFlag}
-            progressWidth={this.state.progressWidth}
-            previousSong={this.previousSong}
-            nextSong={this.nextSong}
-            onRepeatAudio={this.onRepeatAudio}
-          />
+          {
+            this.props.songList.length !== undefined
 
-          <SongList onCardClick={this.onCardClick} songList={this.state.songList} />
+            ?
+            
+              <MusicPlayer
+                currentSong={this.props.songList[0]}
+                onHandleProgressBar={this.onHandleProgressBar}
+                timerMinutes={this.state.timerMinutes}
+                timerSeconds={this.state.timerSeconds}
+                letsShuffle={this.letsShuffle}
+                songPlayed={this.state.songPlayed}
+                onPlayClick={this.onPlayClick}
+                onPauseClick={this.onPauseClick}
+                repeatAudio={this.state.repeatAudio}
+                shuffleFlag={this.state.shuffleFlag}
+                progressWidth={this.state.progressWidth}
+                previousSong={this.previousSong}
+                nextSong={this.nextSong}
+                onRepeatAudio={this.onRepeatAudio}
+              />
+
+            : null
+        
+          }
+
+        {
+            this.props.songList.length !== undefined
+
+          ?
+          <SongList onCardClick={this.onCardClick} songList={this.props.songList} />
+
+          : null
+
+        }
 
         </main>
       </div>
@@ -133,4 +156,16 @@ class App extends React.Component {
 
 }
 
-export default App;
+const setStateInProps = (state) => {
+  return {
+    songList: state.data
+  }
+}
+
+const setActionsInProps = (dispatch) => {
+  return {
+    getDataFromBackEnd: () => {dispatch(loadData())}
+  }
+}
+
+export default connect(setStateInProps, setActionsInProps)(App);
