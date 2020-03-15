@@ -1,0 +1,35 @@
+.ProgressBar {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-between;
+}
+
+progress {
+    width: 300px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: unset;
+}
+
+progress[value] {
+    background-color: white;
+    height: 4px;
+    border-radius: 8px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: white;
+    border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+    background-color: black;
+    border-radius: 8px;
+    transition: .2s;
+}
+
+progress[value]::-moz-progress-bar {
+    background-color: black;
+    border-radius: 8px;
+}
