@@ -13,40 +13,26 @@ import Preloader from './Components/Preloader/Preloader';
 
 class App extends React.Component {
 
-  state = {
-    currentSong : {}
-  }
-
   onCardClick = (pos) => {
-    this.setState({currentSong: this.props.songList[pos], songPlayed: true});
+    this.setState({currentSong: this.props.songList[pos]});
   }
 
   componentDidMount() {
     this.props.getDataFromBackEnd();
   }
 
+  componentDidUpdate() {
+    console.log('App update')
+  }
+
   render() {
 
     return (
-
       <div className="App">
        <Preloader visible={!this.props.songList.length}>
           <main>
-
-            {
-              this.props.songList.length !== undefined
-              ?
-                <MusicPlayer currentSong={this.props.songList[0]} />
-              : null
-            }
-
-          {
-            this.props.songList.length !== undefined
-            ?
+              <MusicPlayer />
               <SongList onCardClick={this.onCardClick} songList={this.props.songList} />
-            : null
-          }
-
           </main>
         </Preloader>
       </div>

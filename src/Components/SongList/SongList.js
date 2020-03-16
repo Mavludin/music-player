@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classes from './SongList.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { loadData } from '../../Store/Actions';
+import { useDispatch } from 'react-redux';
+import { getClickedSong } from '../../Store/Actions';
 
-const SongList = ( {songList, onCardClick} ) => {
+const SongList = ( {songList} ) => {
 
-    const data = useSelector(state=>state.data);
+    const dispatch = useDispatch();
 
-    const songListRender = songList.map((item,pos)=> {
+    const songListRender = songList.map((item)=> {
         return(
-            <div onClick={()=>onCardClick(pos)} className={classes.SongListCard} key={item.id}>
+            <div onClick={()=>dispatch(getClickedSong(item))} className={classes.SongListCard} key={item.id}>
                 <img src={item.albumCover} alt={`${item.artisst}-${item.track}`} />
                 <div>
                     <h3>{item.track}</h3>
@@ -21,7 +21,6 @@ const SongList = ( {songList, onCardClick} ) => {
     });
 
     return (
-        
         <div className={classes.SongList}>
             {songListRender}
         </div>

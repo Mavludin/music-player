@@ -2,6 +2,8 @@ import React from 'react';
 import classes from './MusicPlayer.module.css';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 
+import { connect } from 'react-redux';
+
 class MusicPlayer extends React.Component {
 
     state = {
@@ -9,7 +11,6 @@ class MusicPlayer extends React.Component {
         prevSlideValue: 0,
         songMuted: false,
         slideValue: 100,
-        songPlayed: false,
         progressWidth: 0,
         timerSeconds: '00',
         timerMinutes: '00',
@@ -18,8 +19,6 @@ class MusicPlayer extends React.Component {
     }
 
     audioPlayer = React.createRef();
-
-    ////// From App
 
     onHandleProgressBar = (e) => {
 
@@ -39,13 +38,13 @@ class MusicPlayer extends React.Component {
 
         if (this.state.progressWidth === 1) {
 
-            if (parseInt(this.state.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
-            else if (!this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.state.currentSong.id], songPlayed: true});
+            if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
+            else if (!this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.props.currentSong.id], songPlayed: true});
 
             if (!this.state.repeatAudio && this.state.shuffleFlag) {
             const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
 
-            if (getNumber !== this.state.currentSong.id-1) {
+            if (getNumber !== this.props.currentSong.id-1) {
                 this.setState({currentSong: this.props.songList[getNumber], songPlayed: true});
             }
 
@@ -65,20 +64,20 @@ class MusicPlayer extends React.Component {
     }
 
     previousSong = () => {
-        if (parseInt(this.state.currentSong.id) === 1) this.setState({currentSong: this.props.songList[this.props.songList.length-1]});
-        else this.setState({currentSong: this.props.songList[this.state.currentSong.id-2], songPlayed: true});
+        if (parseInt(this.props.currentSong.id) === 1) this.setState({currentSong: this.props.songList[this.props.songList.length-1]});
+        else this.setState({currentSong: this.props.songList[this.props.currentSong.id-2], songPlayed: true});
     }
         
     nextSong = () => {
-        if (parseInt(this.state.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
-        else if (!this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.state.currentSong.id], songPlayed: true});
+        if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
+        else if (!this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.props.currentSong.id], songPlayed: true});
 
         if (this.state.shuffleFlag) {
 
             const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
             
-            if (getNumber !== this.state.currentSong.id-1) {
-            this.setState({currentSong: this.props.songList[getNumber], songPlayed: true});
+            if (getNumber !== this.props.currentSong.id-1) {
+                this.setState({currentSong: this.props.songList[getNumber], songPlayed: true});
             }
         }
     }
@@ -90,8 +89,6 @@ class MusicPlayer extends React.Component {
     onRepeatAudio = () => {
         this.setState({repeatAudio: !this.state.repeatAudio});
     }
-
-    ////// From App
 
     onVolumeControl = (e) => {
         this.audioPlayer.current.volume = e.target.value/100;
@@ -123,7 +120,7 @@ class MusicPlayer extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.state.songPlayed) this.audioPlayer.current.play();
+        if (this.props.songPlayed) this.audioPlayer.current.play();
         else this.audioPlayer.current.pause();
     }
 
@@ -165,7 +162,7 @@ class MusicPlayer extends React.Component {
                     <i onClick={this.letsShuffle} className={shuffleClasses.join(' ')}></i>
                     <i onClick={this.previousSong} className={["fas fa-step-backward", classes.BackwardsIcon].join(' ')}></i>
 
-                    { this.state.songPlayed ? songPaused : songPLayed }
+                    { this.props.songPlayed ? songPaused : songPLayed }
 
                     <i onClick={this.nextSong} className={["fas fa-step-forward", classes.ForwardIcon].join(' ')}></i>
                     <i onClick={this.onRepeatAudio} className={repeatClasses.join(' ')}></i>
@@ -186,5 +183,13 @@ class MusicPlayer extends React.Component {
 
 }
 
-export default MusicPlayer;
+const setStateInProps = (state) => {
+    return {
+      currentSong: state.currentSong,
+      songPlayed: state.songPlayed
+    }
+}
+  
+
+export default connect (setStateInProps)(MusicPlayer);
 
