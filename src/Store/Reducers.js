@@ -1,4 +1,4 @@
-import { PUT_DATA, GET_CLICKED_SONG } from "./Actions";
+import { PUT_DATA, GET_SONG, PLAY_SONG, PAUSE_SONG } from "./Actions";
 
 const initialState = {
     data: {},
@@ -16,7 +16,21 @@ export const rootReducer = (state = initialState, action) => {
         }
     }
 
-    if (action.type === GET_CLICKED_SONG) {
+    if (action.type === PLAY_SONG) {
+        return {
+            ...state,
+            songPlayed: true
+        }
+    }
+
+    if (action.type === PAUSE_SONG) {
+        return {
+            ...state,
+            songPlayed: false
+        }
+    }
+
+    if (action.type === GET_SONG) {
         return {
             ...state,
             currentSong: action.payload,

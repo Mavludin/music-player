@@ -18,6 +18,10 @@
     border-radius: 8px;
 }
 
+.MusicPlayer svg {
+    cursor: pointer;
+}
+
 .MusicPlayer h3 {
     margin: 0;
     width: 55px;
@@ -28,36 +32,27 @@
     align-items: center;
 }
 
-i {
-    cursor: pointer;
-    font-size: 30px;
+.AudioControls svg+svg{
+    margin-left: 10px;
+}
+
+.AudioControls svg {
+    font-size: 2.5em;
     opacity: 0.7;
     transition: opacity .3s;
-    font-size: 26px;
 }
 
-.AudioControls i:hover {
+svg.PlayButton, svg.PauseButton {
+    font-size: 3.5em;
+}
+
+.AudioControls svg:hover {
     color: #2a5298;
     transition: color .2s;
-}
-
-i:hover {
     opacity: 1;
 }
 
-i+i{
-    margin-left: 20px;
-}
-
-.PlayButton, .PauseButton {
-    font-size: 50px;
-}
-
-.BackwardsIcon, .ForwardIcon {
-    font-size: 36px;
-}
-
-.repeatOn, .shuffleOn {
+svg.RepeatOn, svg.ShuffleOn {
     opacity: 1;
     color: #2a5298;
 }

@@ -3,6 +3,16 @@ import classes from './MusicPlayer.module.css';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 
 import { connect } from 'react-redux';
+import { playSong, pauseSong, getSong } from '../../Store/Actions';
+
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import LoopIcon from '@material-ui/icons/Loop';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
 class MusicPlayer extends React.Component {
 
@@ -14,7 +24,7 @@ class MusicPlayer extends React.Component {
         progressWidth: 0,
         timerSeconds: '00',
         timerMinutes: '00',
-        repeatAudio: false,
+        repeatFlag: false,
         shuffleFlag: false
     }
 
@@ -38,15 +48,18 @@ class MusicPlayer extends React.Component {
 
         if (this.state.progressWidth === 1) {
 
-            if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
-            else if (!this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.props.currentSong.id], songPlayed: true});
-
-            if (!this.state.repeatAudio && this.state.shuffleFlag) {
-            const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
-
-            if (getNumber !== this.props.currentSong.id-1) {
-                this.setState({currentSong: this.props.songList[getNumber], songPlayed: true});
+            if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatFlag && !this.state.shuffleFlag) this.props.playNextSong(this.props.songList[0]);
+            else if (!this.state.repeatFlag && !this.state.shuffleFlag) {
+                this.props.playNextSong(this.props.songList[1]);
             }
+
+            if (!this.state.repeatFlag && this.state.shuffleFlag) {
+                
+                const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
+
+                if (getNumber !== this.props.currentSong.id-1) {
+                    this.props.playNextSong(this.props.songList[getNumber])
+                }
 
             }
             
@@ -54,30 +67,25 @@ class MusicPlayer extends React.Component {
 
     }
 
-
-    onPlayClick = () => {
-        this.setState({songPlayed: true});
-    }
-
-    onPauseClick = () => {
-        this.setState({songPlayed: false});
-    }
-
     previousSong = () => {
-        if (parseInt(this.props.currentSong.id) === 1) this.setState({currentSong: this.props.songList[this.props.songList.length-1]});
-        else this.setState({currentSong: this.props.songList[this.props.currentSong.id-2], songPlayed: true});
+        if (parseInt(this.props.currentSong.id) === 1) this.props.playNextSong(this.props.songList[this.props.songList.length-1]);
+        else {
+            this.props.playNextSong(this.props.songList[this.props.currentSong.id-2]);
+        }
     }
         
     nextSong = () => {
-        if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatAudio && !this.state.shuffleFlag) this.setState({currentSong: this.props.songList[0]});
-        else if (!this.state.shuffleFlag) this.setState({currentSong: this.props.songList[this.props.currentSong.id], songPlayed: true});
+        if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatFlag && !this.state.shuffleFlag) this.props.playNextSong(this.props.songList[0]);
+        else if (!this.state.shuffleFlag) {
+            this.props.playNextSong(this.props.songList[this.props.currentSong.id]);
+        }
 
         if (this.state.shuffleFlag) {
 
             const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
             
             if (getNumber !== this.props.currentSong.id-1) {
-                this.setState({currentSong: this.props.songList[getNumber], songPlayed: true});
+                this.props.playNextSong(this.props.songList[getNumber]);
             }
         }
     }
@@ -86,8 +94,8 @@ class MusicPlayer extends React.Component {
         this.setState({shuffleFlag: !this.state.shuffleFlag});
     }
     
-    onRepeatAudio = () => {
-        this.setState({repeatAudio: !this.state.repeatAudio});
+    onrepeatFlag = () => {
+        this.setState({repeatFlag: !this.state.repeatFlag});
     }
 
     onVolumeControl = (e) => {
@@ -126,17 +134,10 @@ class MusicPlayer extends React.Component {
 
     render() {
 
-        const repeatClasses = ['fas fa-sync-alt'];
-        if (this.props.repeatAudio) repeatClasses.push(classes.repeatOn);
-    
-        const shuffleClasses = ['fas fa-random'];
-        if (this.props.shuffleFlag) shuffleClasses.push(classes.shuffleOn);
-
-        const unMuted = <i onClick={this.onMute} className="fas fa-volume-up"></i>;
-        const muted = <i onClick={this.onUnMute} className="fas fa-volume-mute"></i>;
-
-        const songPLayed = <i onClick={this.onPlayClick} className={["fas fa-play-circle", classes.PlayButton].join(' ')}></i>;
-        const songPaused = <i onClick={this.onPauseClick} className={["fas fa-pause-circle", classes.PauseButton].join(' ')}></i>;
+        const unMuted = <VolumeUpIcon onClick={this.onMute} />
+        const muted = <VolumeOffIcon onClick={this.onUnMute} />
+        const playSongIcon = <PlayCircleFilledIcon className={classes.PlayButton} onClick={()=>this.props.playSong()} />
+        const pauseSongIcon = <PauseCircleFilledIcon className={classes.PauseButton} onClick={()=>this.props.pauseSong()} />
 
         return (
             <div className={classes.MusicPlayer}>
@@ -159,20 +160,15 @@ class MusicPlayer extends React.Component {
                 />
                 
                 <div className={classes.AudioControls}>
-                    <i onClick={this.letsShuffle} className={shuffleClasses.join(' ')}></i>
-                    <i onClick={this.previousSong} className={["fas fa-step-backward", classes.BackwardsIcon].join(' ')}></i>
-
-                    { this.props.songPlayed ? songPaused : songPLayed }
-
-                    <i onClick={this.nextSong} className={["fas fa-step-forward", classes.ForwardIcon].join(' ')}></i>
-                    <i onClick={this.onRepeatAudio} className={repeatClasses.join(' ')}></i>
-
+                    <ShuffleIcon onClick={this.letsShuffle} className={this.state.shuffleFlag ? classes.ShuffleOn : null} />
+                    <SkipPreviousIcon onClick={this.previousSong} className={classes.BackwardsIcon} />
+                    { this.props.songPlayed ? pauseSongIcon : playSongIcon }
+                    <SkipNextIcon onClick={this.nextSong} className={classes.ForwardIcon} />
+                    <LoopIcon onClick={this.onrepeatFlag} className={this.state.repeatFlag ? classes.RepeatOn : null} />
                 </div>
 
                 <div className={classes.VolumeControl}>
-
                     {(this.state.songMuted || this.state.slideValue === 0) ? muted : unMuted}
-
                     <input className={classes.Slider} onChange={(e)=>this.onVolumeControl(e)} type="range" min="0" max="100" value={this.state.slideValue} />
                 </div>
             
@@ -186,10 +182,18 @@ class MusicPlayer extends React.Component {
 const setStateInProps = (state) => {
     return {
       currentSong: state.currentSong,
-      songPlayed: state.songPlayed
+      songPlayed: state.songPlayed,
     }
 }
+
+const setActionsInProps = (dispatch) => {
+    return {
+      playSong: () => {dispatch(playSong())},
+      pauseSong: () => {dispatch(pauseSong())},
+      playNextSong: (obj) => {dispatch(getSong(obj))}
+    }
+  }
   
 
-export default connect (setStateInProps)(MusicPlayer);
+export default connect (setStateInProps, setActionsInProps)(MusicPlayer);
 

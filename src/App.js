@@ -13,16 +13,8 @@ import Preloader from './Components/Preloader/Preloader';
 
 class App extends React.Component {
 
-  onCardClick = (pos) => {
-    this.setState({currentSong: this.props.songList[pos]});
-  }
-
   componentDidMount() {
     this.props.getDataFromBackEnd();
-  }
-
-  componentDidUpdate() {
-    console.log('App update')
   }
 
   render() {
@@ -31,8 +23,8 @@ class App extends React.Component {
       <div className="App">
        <Preloader visible={!this.props.songList.length}>
           <main>
-              <MusicPlayer />
-              <SongList onCardClick={this.onCardClick} songList={this.props.songList} />
+              <MusicPlayer songList={this.props.songList} />
+              <SongList songList={this.props.songList} />
           </main>
         </Preloader>
       </div>
