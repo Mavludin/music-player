@@ -1,16 +1,11 @@
 import React from 'react';
 import classes from './MusicPlayer.module.css';
 import ProgressBar from './components/ProgressBar/ProgressBar';
+import AudioControls from './components/AudioControls/AudioControls'
 
 import { connect } from 'react-redux';
 import { playSong, pauseSong, getSong } from '../../Store/Actions';
 
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import LoopIcon from '@material-ui/icons/Loop';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
@@ -67,34 +62,11 @@ class MusicPlayer extends React.Component {
 
     }
 
-    previousSong = () => {
-        if (parseInt(this.props.currentSong.id) === 1) this.props.playNextSong(this.props.songList[this.props.songList.length-1]);
-        else {
-            this.props.playNextSong(this.props.songList[this.props.currentSong.id-2]);
-        }
-    }
-        
-    nextSong = () => {
-        if (parseInt(this.props.currentSong.id) === parseInt(this.props.songList.length) && !this.state.repeatFlag && !this.state.shuffleFlag) this.props.playNextSong(this.props.songList[0]);
-        else if (!this.state.shuffleFlag) {
-            this.props.playNextSong(this.props.songList[this.props.currentSong.id]);
-        }
-
-        if (this.state.shuffleFlag) {
-
-            const getNumber = Math.floor(Math.random() * Math.floor(this.props.songList.length));
-            
-            if (getNumber !== this.props.currentSong.id-1) {
-                this.props.playNextSong(this.props.songList[getNumber]);
-            }
-        }
-    }
-
     letsShuffle = () => {
         this.setState({shuffleFlag: !this.state.shuffleFlag});
     }
     
-    onrepeatFlag = () => {
+    onRepeatFlag = () => {
         this.setState({repeatFlag: !this.state.repeatFlag});
     }
 
@@ -136,8 +108,6 @@ class MusicPlayer extends React.Component {
 
         const unMuted = <VolumeUpIcon onClick={this.onMute} />
         const muted = <VolumeOffIcon onClick={this.onUnMute} />
-        const playSongIcon = <PlayCircleFilledIcon className={classes.PlayButton} onClick={()=>this.props.playSong()} />
-        const pauseSongIcon = <PauseCircleFilledIcon className={classes.PauseButton} onClick={()=>this.props.pauseSong()} />
 
         return (
             <div className={classes.MusicPlayer}>
@@ -159,13 +129,17 @@ class MusicPlayer extends React.Component {
                     progressWidth={this.state.progressWidth}
                 />
                 
-                <div className={classes.AudioControls}>
-                    <ShuffleIcon onClick={this.letsShuffle} className={this.state.shuffleFlag ? classes.ShuffleOn : null} />
-                    <SkipPreviousIcon onClick={this.previousSong} className={classes.BackwardsIcon} />
-                    { this.props.songPlayed ? pauseSongIcon : playSongIcon }
-                    <SkipNextIcon onClick={this.nextSong} className={classes.ForwardIcon} />
-                    <LoopIcon onClick={this.onrepeatFlag} className={this.state.repeatFlag ? classes.RepeatOn : null} />
-                </div>
+                <AudioControls 
+                    shuffleFlag={this.state.shuffleFlag}
+                    letsShuffle={this.letsShuffle}
+                    songPlayed={this.props.songPlayed}
+                    onRepeatFlag={this.onRepeatFlag}
+                    repeatFlag={this.state.repeatFlag}
+                    playSong={this.props.playSong}
+                    pauseSong={this.props.pauseSong}
+                    songList={this.props.songList}
+                    currentSong={this.props.currentSong} 
+                />
 
                 <div className={classes.VolumeControl}>
                     {(this.state.songMuted || this.state.slideValue === 0) ? muted : unMuted}

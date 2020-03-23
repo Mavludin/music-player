@@ -27,36 +27,6 @@
     width: 55px;
 }
 
-.AudioControls {
-    display: flex;
-    align-items: center;
-}
-
-.AudioControls svg+svg{
-    margin-left: 10px;
-}
-
-.AudioControls svg {
-    font-size: 2.5em;
-    opacity: 0.7;
-    transition: opacity .3s;
-}
-
-svg.PlayButton, svg.PauseButton {
-    font-size: 3.5em;
-}
-
-.AudioControls svg:hover {
-    color: #2a5298;
-    transition: color .2s;
-    opacity: 1;
-}
-
-svg.RepeatOn, svg.ShuffleOn {
-    opacity: 1;
-    color: #2a5298;
-}
-
 .VolumeControl {
     display: flex;
     align-items: center;

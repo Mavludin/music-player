@@ -19,13 +19,13 @@ export const loadData = () => {
 
 export const playSong = () => {
     return {
-        type: PLAY_SONG,
+        type: PLAY_SONG
     }
 }
 
 export const pauseSong = () => {
     return {
-        type: PAUSE_SONG,
+        type: PAUSE_SONG
     }
 }
 
