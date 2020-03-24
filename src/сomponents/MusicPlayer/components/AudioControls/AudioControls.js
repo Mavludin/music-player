@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './AudioControls.module.css';
 
 import { useDispatch } from 'react-redux';
-import { getSong } from '../../../../Store/Actions';
+import { getSong } from '../../../../store/Actions';
 
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';

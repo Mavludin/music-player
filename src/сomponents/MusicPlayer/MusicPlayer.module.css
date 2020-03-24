@@ -9,8 +9,9 @@
     border-right: 1px solid black;
 }
 
-.MusicPlayer h2 {
-    margin: 0;
+.MusicPlayer h1 {
+    text-align: center;
+    font-size: 1.6em;
 }
 
 .MusicPlayer img {
@@ -20,11 +21,6 @@
 
 .MusicPlayer svg {
     cursor: pointer;
-}
-
-.MusicPlayer h3 {
-    margin: 0;
-    width: 55px;
 }
 
 .VolumeControl {
@@ -75,4 +71,18 @@
 
 .Slider::-moz-range-thumb:hover{
     background-color: #2a5298;
+}
+
+@media screen and (max-width: 991px) {
+    .MusicPlayer {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .MusicPlayer {
+        width: 100%;
+        border-bottom: 1px solid black;
+        border-bottom-right-radius: 10px;
+    }
 }

@@ -1,4 +1,4 @@
-import { putData, LOAD_DATA } from "../Store/Actions";
+import { putData, LOAD_DATA } from "../store/Actions";
 import { takeEvery, put, call } from 'redux-saga/effects';
 
 

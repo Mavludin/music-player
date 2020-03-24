@@ -4,7 +4,7 @@ import ProgressBar from './components/ProgressBar/ProgressBar';
 import AudioControls from './components/AudioControls/AudioControls'
 
 import { connect } from 'react-redux';
-import { playSong, pauseSong, getSong } from '../../Store/Actions';
+import { playSong, pauseSong, getSong } from '../../store/Actions';
 
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
@@ -113,7 +113,7 @@ class MusicPlayer extends React.Component {
             <div className={classes.MusicPlayer}>
 
                 <img src={this.props.currentSong.albumCover} alt="Album cover"/>
-                <h2>{`${this.props.currentSong.artist} - ${this.props.currentSong.track}`}</h2>
+                <h1>{`${this.props.currentSong.artist} - ${this.props.currentSong.track}`}</h1>
 
                 <audio 
                     onLoadedMetadata={(e)=>this.onLoadedMetadata(e)} 
