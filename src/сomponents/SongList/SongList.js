@@ -6,13 +6,14 @@ import Scroll from 'react-scroll';
 import { useDispatch } from 'react-redux';
 import { getSong } from '../../store/Actions';
 
-const SongList = ( {songList} ) => {
+const SongList = ( {songList, musicPlayer} ) => {
 
     const dispatch = useDispatch();
 
     const scrollToPLayer = () => {
-        const player = document.querySelector('.MusicPlayer_MusicPlayer__2mjBP');
-        Scroll.animateScroll.scrollTo(parseInt(player.offsetTop));
+        if (musicPlayer.current.offsetTop !== null) {
+            Scroll.animateScroll.scrollTo(parseInt(musicPlayer.current.offsetTop));
+        }
     }
 
     const songListRender = songList.map((item)=> {

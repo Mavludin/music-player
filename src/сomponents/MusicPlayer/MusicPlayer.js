@@ -110,7 +110,7 @@ class MusicPlayer extends React.Component {
         const muted = <VolumeOffIcon onClick={this.onUnMute} />
 
         return (
-            <div className={classes.MusicPlayer}>
+            <div ref={this.props.musicPlayer} className={classes.MusicPlayer}>
 
                 <img src={this.props.currentSong.albumCover} alt="Album cover"/>
                 <h1>{`${this.props.currentSong.artist} - ${this.props.currentSong.track}`}</h1>

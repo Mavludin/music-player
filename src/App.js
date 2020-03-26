@@ -15,6 +15,8 @@ import Scroll from 'react-scroll';
 
 class App extends React.Component {
 
+  musicPlayer = React.createRef();
+
   componentDidMount() {
     this.props.getDataFromBackEnd();
 
@@ -37,9 +39,14 @@ class App extends React.Component {
       <div className="App">
        <Preloader visible={!this.props.songList.length}>
           <main>
-              <MusicPlayer songList={this.props.songList} />
-              <SongList songList={this.props.songList} />
-              <img onScroll={(e)=>console.log(e)} onClick={this.backToTop} className="toTopIcon" src={toTopIcon} alt="to Top Icon"/>
+              <MusicPlayer musicPlayer={this.musicPlayer} songList={this.props.songList} />
+              <SongList musicPlayer={this.musicPlayer} songList={this.props.songList} />
+              <img 
+                onClick={this.backToTop} 
+                className="toTopIcon" 
+                src={toTopIcon} 
+                alt="to Top Icon"
+              />
           </main>
         </Preloader>
       </div>
