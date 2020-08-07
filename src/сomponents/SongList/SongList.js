@@ -29,8 +29,10 @@ const SongList = ( {songList, musicPlayer} ) => {
     });
 
     return (
-        <div className={classes.SongList}>
-            {songListRender}
+        <div className={classes.SongListWrapper}>
+            <div className={classes.SongList}>
+                {songListRender}
+            </div>
         </div>
     ) 
 }

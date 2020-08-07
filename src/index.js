@@ -8,11 +8,11 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './store/Reducers';
 import createSagaMiddleWare from 'redux-saga';
-import { watchLoaddata } from './saga/Sagas';
+import { watchLoadData } from './saga/Sagas';
 
 const sagaMiddleWare = createSagaMiddleWare();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleWare));
-sagaMiddleWare.run(watchLoaddata);
+sagaMiddleWare.run(watchLoadData);
 
 ReactDOM.render(<Provider store={store}> <App /> </Provider>, document.getElementById('root'));
 

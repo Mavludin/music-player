@@ -14,7 +14,9 @@ const ProgressBar = ( {timerMinutes, timerSeconds, songDuration, progressWidth} 
     return (
         <div className={classes.ProgressBar}>
             <p>{timerMinutes}:{timerSeconds}</p>
-            <progress onClick={(e)=>onProgressClick(e)} value={progressWidth.toString()} max="1"></progress>
+            <div className={classes.ProgressContainer}>
+                <progress onClick={(e)=>onProgressClick(e)} value={progressWidth.toString()} max="1"></progress>
+            </div>
             <p>{songDuration}</p>
         </div>
     )

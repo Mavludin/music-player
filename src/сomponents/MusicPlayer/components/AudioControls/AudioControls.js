@@ -13,10 +13,10 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 
 const AudioControls = ( 
     {
-        shuffleFlag, 
+        isShuffled, 
         letsShuffle, 
-        onRepeatFlag, 
-        repeatFlag,
+        onRepeatSong, 
+        isGonnaRepeat,
         songList,
         currentSong,
         songPlayed,
@@ -35,12 +35,12 @@ const AudioControls = (
     }
 
     const nextSong = () => {
-        if (parseInt(currentSong.id) === parseInt(songList.length) && !repeatFlag && !shuffleFlag) playNextSong(getSong(songList[0]));
-        else if (!shuffleFlag) {
+        if (parseInt(currentSong.id) === parseInt(songList.length) && !isGonnaRepeat && !isShuffled) playNextSong(getSong(songList[0]));
+        else if (!isShuffled) {
             playNextSong(getSong(songList[currentSong.id]));
         }
 
-        if (shuffleFlag) {
+        if (isShuffled) {
 
             const getNumber = Math.floor(Math.random() * Math.floor(songList.length));
             
@@ -55,11 +55,11 @@ const AudioControls = (
 
     return (
         <div className={classes.AudioControls}>
-            <ShuffleIcon onClick={letsShuffle} className={shuffleFlag ? classes.ShuffleOn : null} />
+            <ShuffleIcon onClick={letsShuffle} className={isShuffled ? classes.ShuffleOn : null} />
             <SkipPreviousIcon onClick={previousSong} className={classes.BackwardsIcon} />
             { songPlayed ? pauseSongIcon : playSongIcon }
             <SkipNextIcon onClick={nextSong} className={classes.ForwardIcon} />
-            <LoopIcon onClick={onRepeatFlag} className={repeatFlag ? classes.RepeatOn : null} />
+            <LoopIcon onClick={onRepeatSong} className={isGonnaRepeat ? classes.RepeatOn : null} />
         </div>
     )
 

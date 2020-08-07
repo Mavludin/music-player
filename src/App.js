@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import SongList from './сomponents/SongList/SongList';
@@ -9,50 +9,48 @@ import { loadData } from './store/Actions';
 
 import Preloader from './сomponents/Preloader/Preloader';
 
-import toTopIcon from './img/to-top.svg';
+// import toTopIcon from './img/to-top.svg';
 
-import Scroll from 'react-scroll';
+// import Scroll from 'react-scroll';
 
-class App extends React.Component {
+const App = (props) => {
 
-  musicPlayer = React.createRef();
+  const musicPlayer = React.createRef();
 
-  componentDidMount() {
-    this.props.getDataFromBackEnd();
+  useEffect(() => {
 
-    window.addEventListener('scroll', ()=>{
-      if (window.scrollY > 0) {
-        document.querySelector('.toTopIcon').style.display = 'block';
-      } else {
-        document.querySelector('.toTopIcon').style.display = 'none';
-      }
-    });
-  }
+    props.getDataFromBackEnd();
 
-  backToTop = () => {
-    Scroll.animateScroll.scrollToTop();
-  }
+    // window.addEventListener('scroll', ()=>{
+    //   if (window.scrollY > 0) {
+    //     document.querySelector('.toTopIcon').style.display = 'block';
+    //   } else {
+    //     document.querySelector('.toTopIcon').style.display = 'none';
+    //   }
+    // });
 
-  render() {
+  })
 
-    return (
-      <div className="App">
-       <Preloader visible={!this.props.songList.length}>
-          <main>
-              <MusicPlayer musicPlayer={this.musicPlayer} songList={this.props.songList} />
-              <SongList musicPlayer={this.musicPlayer} songList={this.props.songList} />
-              <img 
+  // const backToTop = () => {
+  //   Scroll.animateScroll.scrollToTop();
+  // }
+
+  return (
+    <div className="App">
+      <Preloader visible={!props.songList.length}>
+        <main>
+          <MusicPlayer musicPlayer={musicPlayer} songList={props.songList} />
+          <SongList musicPlayer={musicPlayer} songList={props.songList} />
+          {/* <img 
                 onClick={this.backToTop} 
                 className="toTopIcon" 
                 src={toTopIcon} 
                 alt="to Top Icon"
-              />
-          </main>
-        </Preloader>
-      </div>
-    );
-  }
-
+              /> */}
+        </main>
+      </Preloader>
+    </div>
+  );
 }
 
 const setStateInProps = (state) => {
@@ -63,7 +61,7 @@ const setStateInProps = (state) => {
 
 const setActionsInProps = (dispatch) => {
   return {
-    getDataFromBackEnd: () => {dispatch(loadData())}
+    getDataFromBackEnd: () => { dispatch(loadData()) }
   }
 }
 

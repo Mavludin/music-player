@@ -1,60 +1,60 @@
 .ProgressBar {
     display: flex;
     align-items: center;
-    width: 420px;
-    justify-content: space-between;
+    max-width: 420px;
+    width: 100%;
 }
 
 .ProgressBar p {
+    text-align: center;
     margin: 0;
-    max-width: 60px;
+    width: 14%;
     font-weight: 900;
     font-size: 18px;
     letter-spacing: 1px;
+    min-width: 55px;
+}
+
+.ProgressContainer {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    height: 5px;
+    width: 72%;
 }
 
 progress {
-    width: 290px;
+    width: 100%;
     cursor: pointer;
     border-radius: 10px;
-    border: unset;
 }
 
 progress[value] {
     background-color: white;
-    height: 4px;
-    border-radius: 8px;
+    height: 100%;
+    border-radius: 10px;
 }
 
 progress[value]::-webkit-progress-bar {
     background-color: white;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 progress::-webkit-progress-value {
     background-color: black;
-    border-radius: 8px;
+    border-radius: 10px;
     transition: .2s;
 }
 
 progress[value]::-moz-progress-bar {
     background-color: black;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 @media screen and (max-width: 500px) {
 
-    .ProgressBar {
-        width: 300px;
-    }
-
     .ProgressBar p {
         font-size: 16px;
-        max-width: 20%;
-    }
-
-    progress {
-        width: 60%;
     }
 
 }
