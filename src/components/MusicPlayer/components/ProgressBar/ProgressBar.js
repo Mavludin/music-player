@@ -1,11 +1,11 @@
 import React from 'react';
 import classes from './ProgressBar.module.css';
 
-const ProgressBar = ( {timerMinutes, timerSeconds, songDuration, progressWidth} ) => {
+export const ProgressBar = ( {timerMinutes, timerSeconds, songDuration, progressWidth} ) => {
 
     const onProgressClick = (e) => {
         let percent = e.nativeEvent.offsetX/e.target.offsetWidth;
-        const audio = document.querySelector('audio')
+        const audio = document.querySelector('audio');
         audio.currentTime = percent*audio.duration;
         const progress = document.querySelector('progress');
         progress.value = percent;
@@ -22,5 +22,3 @@ const ProgressBar = ( {timerMinutes, timerSeconds, songDuration, progressWidth} 
     )
 
 }
-
-export default ProgressBar;

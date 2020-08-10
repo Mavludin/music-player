@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import classes from './MusicPlayer.module.css';
-import ProgressBar from './components/ProgressBar/ProgressBar';
-import AudioControls from './components/AudioControls/AudioControls'
+import { ProgressBar } from './components/ProgressBar/ProgressBar';
+import { AudioControls } from './components/AudioControls/AudioControls'
 
-import { connect } from 'react-redux';
-import { playSong, pauseSong, getSong } from '../../store/Actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSong } from '../../store/Actions';
 
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
-const MusicPlayer = (props) => {
+export const MusicPlayer = ({ songList, musicPlayer }) => {
+
+    const currentSong = useSelector(state => state.currentSong);
+    const songPlayed = useSelector(state => state.songPlayed);
+
+    const playNextSong = useDispatch(getSong);
 
     const [songDuration, setSongDuration] = useState('');
     const [prevSlideValue, setPrevSlideValue] = useState(0);
@@ -42,17 +47,17 @@ const MusicPlayer = (props) => {
 
         if (progressWidth === 1) {
 
-            if (parseInt(props.currentSong.id) === parseInt(props.songList.length) && !isGonnaRepeat && !isShuffled) props.playNextSong(props.songList[0]);
+            if (parseInt(currentSong.id) === parseInt(songList.length) && !isGonnaRepeat && !isShuffled) playNextSong(songList[0]);
             else if (!isGonnaRepeat && !isShuffled) {
-                props.playNextSong(props.songList[1]);
+                playNextSong(songList[1]);
             }
 
             if (!isGonnaRepeat && isShuffled) {
 
-                const getNumber = Math.floor(Math.random() * Math.floor(props.songList.length));
+                const getNumber = Math.floor(Math.random() * Math.floor(songList.length));
 
-                if (getNumber !== props.currentSong.id - 1) {
-                    props.playNextSong(props.songList[getNumber])
+                if (getNumber !== currentSong.id - 1) {
+                    playNextSong(songList[getNumber])
                 }
 
             }
@@ -101,24 +106,23 @@ const MusicPlayer = (props) => {
     }
 
     useEffect(() => {
-        if (props.songPlayed) audioPlayer.current.play();
+        if (songPlayed) audioPlayer.current.play();
         else audioPlayer.current.pause();
     })
-
 
     const unMuted = <VolumeUpIcon onClick={onMute} />
     const muted = <VolumeOffIcon onClick={onUnMute} />
 
     return (
-        <div ref={props.musicPlayer} className={classes.MusicPlayer}>
+        <div ref={musicPlayer} className={classes.MusicPlayer}>
 
-            <img src={props.currentSong.albumCover} alt="Album cover" />
-            <h1>{`${props.currentSong.artist} - ${props.currentSong.track}`}</h1>
+            <img src={currentSong.albumCover} alt="Album cover" />
+            <h1>{`${currentSong.artist} - ${currentSong.track}`}</h1>
 
             <audio
                 onLoadedMetadata={(e) => onLoadedMetadata(e)}
                 onTimeUpdate={(e) => onHandleProgressBar(e)}
-                src={props.currentSong.file} ref={audioPlayer}
+                src={currentSong.file} ref={audioPlayer}
             >
             </audio>
 
@@ -132,13 +136,11 @@ const MusicPlayer = (props) => {
             <AudioControls
                 isShuffled={isShuffled}
                 letsShuffle={letsShuffle}
-                songPlayed={props.songPlayed}
+                songPlayed={songPlayed}
                 isGonnaRepeat={isGonnaRepeat}
                 onRepeatSong={onRepeatSong}
-                playSong={props.playSong}
-                pauseSong={props.pauseSong}
-                songList={props.songList}
-                currentSong={props.currentSong}
+                songList={songList}
+                currentSong={currentSong}
             />
 
             <div className={classes.VolumeControl}>
@@ -150,21 +152,3 @@ const MusicPlayer = (props) => {
     )
 
 }
-
-const setStateInProps = (state) => {
-    return {
-        currentSong: state.currentSong,
-        songPlayed: state.songPlayed,
-    }
-}
-
-const setActionsInProps = (dispatch) => {
-    return {
-        playSong: () => { dispatch(playSong()) },
-        pauseSong: () => { dispatch(pauseSong()) },
-        playNextSong: (obj) => { dispatch(getSong(obj)) }
-    }
-}
-
-
-export default connect(setStateInProps, setActionsInProps)(MusicPlayer);

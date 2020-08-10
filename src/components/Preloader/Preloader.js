@@ -1,9 +1,9 @@
 import React from 'react';
 import classes from './Preloader.module.css';
 
-import preloaderIcon from "../../img/vinyl.gif";
+import preloaderIcon from "../../assets/images/vinyl.gif";
 
-const Preloader = ( {visible, children} ) => {
+export const Preloader = ( {visible, children} ) => {
 
     return (
         visible ?
@@ -14,5 +14,3 @@ const Preloader = ( {visible, children} ) => {
         : children
     ) 
 }
-
-export default Preloader;

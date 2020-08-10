@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './AudioControls.module.css';
 
 import { useDispatch } from 'react-redux';
-import { getSong } from '../../../../store/Actions';
+import { getSong, playSong, pauseSong } from '../../../../store/Actions';
 
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
@@ -11,7 +11,7 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import LoopIcon from '@material-ui/icons/Loop';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 
-const AudioControls = ( 
+export const AudioControls = ( 
     {
         isShuffled, 
         letsShuffle, 
@@ -19,25 +19,23 @@ const AudioControls = (
         isGonnaRepeat,
         songList,
         currentSong,
-        songPlayed,
-        playSong,
-        pauseSong
+        songPlayed
     }
 ) => {
 
-    const playNextSong = useDispatch();
+    const dispatch = useDispatch();
 
     const previousSong = () => {
-        if (parseInt(currentSong.id) === 1) playNextSong(getSong(songList[songList.length-1]));
+        if (parseInt(currentSong.id) === 1) dispatch(getSong(songList[songList.length-1]));
         else {
-            playNextSong(getSong(songList[currentSong.id-2]));
+            dispatch(getSong(songList[currentSong.id-2]));
         }
     }
 
     const nextSong = () => {
-        if (parseInt(currentSong.id) === parseInt(songList.length) && !isGonnaRepeat && !isShuffled) playNextSong(getSong(songList[0]));
+        if (parseInt(currentSong.id) === parseInt(songList.length) && !isGonnaRepeat && !isShuffled) dispatch(getSong(songList[0]));
         else if (!isShuffled) {
-            playNextSong(getSong(songList[currentSong.id]));
+            dispatch(getSong(songList[currentSong.id]));
         }
 
         if (isShuffled) {
@@ -45,13 +43,13 @@ const AudioControls = (
             const getNumber = Math.floor(Math.random() * Math.floor(songList.length));
             
             if (getNumber !== currentSong.id-1) {
-                playNextSong(getSong(songList[getNumber]));
+                dispatch(getSong(songList[getNumber]));
             }
         }
     }
 
-    const playSongIcon = <PlayCircleFilledIcon className={classes.PlayButton} onClick={playSong} />
-    const pauseSongIcon = <PauseCircleFilledIcon className={classes.PauseButton} onClick={pauseSong} />
+    const playSongIcon = <PlayCircleFilledIcon className={classes.PlayButton} onClick={()=>dispatch(playSong())} />
+    const pauseSongIcon = <PauseCircleFilledIcon className={classes.PauseButton} onClick={()=>dispatch(pauseSong())} />
 
     return (
         <div className={classes.AudioControls}>
@@ -64,5 +62,3 @@ const AudioControls = (
     )
 
 }
-
-export default AudioControls;

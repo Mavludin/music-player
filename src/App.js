@@ -1,68 +1,34 @@
 import React, { useEffect } from 'react';
 import './App.css';
 
-import SongList from './сomponents/SongList/SongList';
-import MusicPlayer from './сomponents/MusicPlayer/MusicPlayer';
-
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadData } from './store/Actions';
 
-import Preloader from './сomponents/Preloader/Preloader';
+import { Preloader } from './components/Preloader/Preloader';
+import { SongList } from './components/SongList/SongList';
+import { MusicPlayer } from './components/MusicPlayer/MusicPlayer';
 
-// import toTopIcon from './img/to-top.svg';
+const App = () => {
 
-// import Scroll from 'react-scroll';
-
-const App = (props) => {
+  const songList = useSelector(state => state.data)
+  const dispatch = useDispatch();
 
   const musicPlayer = React.createRef();
 
   useEffect(() => {
-
-    props.getDataFromBackEnd();
-
-    // window.addEventListener('scroll', ()=>{
-    //   if (window.scrollY > 0) {
-    //     document.querySelector('.toTopIcon').style.display = 'block';
-    //   } else {
-    //     document.querySelector('.toTopIcon').style.display = 'none';
-    //   }
-    // });
-
-  })
-
-  // const backToTop = () => {
-  //   Scroll.animateScroll.scrollToTop();
-  // }
+    dispatch(loadData())
+  }, [dispatch])
 
   return (
     <div className="App">
-      <Preloader visible={!props.songList.length}>
+      <Preloader visible={songList === null}>
         <main>
-          <MusicPlayer musicPlayer={musicPlayer} songList={props.songList} />
-          <SongList musicPlayer={musicPlayer} songList={props.songList} />
-          {/* <img 
-                onClick={this.backToTop} 
-                className="toTopIcon" 
-                src={toTopIcon} 
-                alt="to Top Icon"
-              /> */}
+          <MusicPlayer musicPlayer={musicPlayer} songList={songList} />
+          <SongList musicPlayer={musicPlayer} songList={songList} />
         </main>
       </Preloader>
     </div>
   );
 }
 
-const setStateInProps = (state) => {
-  return {
-    songList: state.data
-  }
-}
-
-const setActionsInProps = (dispatch) => {
-  return {
-    getDataFromBackEnd: () => { dispatch(loadData()) }
-  }
-}
-
-export default connect(setStateInProps, setActionsInProps)(App);
+export default App

@@ -48,15 +48,20 @@
 
 .SongListCard:last-of-type {
     border: unset;
+    padding-bottom: 0;
 }
 
 .SongListCard:hover, .SelectedSong {
     background-color: rgba(0,0,0,0.1);
 }
 
+.AlbumCover {
+    width: 25%;
+}
+
 .SongListCard img {
-    width: 100px;
-    max-width: 25%;
+    width: 100%;
+    max-width: 120px;
     border-radius: 8px;
 }
 
@@ -70,7 +75,7 @@
     font-size: 18px;
 }
 
-.SongListCard div {
+.SongListCard .TrackName {
     padding: 10px;
     font-style: italic;
     width: 75%;
@@ -86,6 +91,7 @@
     .SongListWrapper {
         width: 100%;
         height: 500px;
+        margin-top: 10px;
     }
 }
 

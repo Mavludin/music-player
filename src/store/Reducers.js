@@ -1,8 +1,8 @@
 import { PUT_DATA, GET_SONG, PLAY_SONG, PAUSE_SONG } from "./Actions";
 
 const initialState = {
-    data: {},
-    currentSong: {},
+    data: null,
+    currentSong: null,
     songPlayed: false
 }
 
