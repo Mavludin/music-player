@@ -108,7 +108,7 @@ export const MusicPlayer = ({ songList, musicPlayer }) => {
     useEffect(() => {
         if (songPlayed) audioPlayer.current.play();
         else audioPlayer.current.pause();
-    })
+    }, [songPlayed, audioPlayer])
 
     const unMuted = <VolumeUpIcon onClick={onMute} />
     const muted = <VolumeOffIcon onClick={onUnMute} />
